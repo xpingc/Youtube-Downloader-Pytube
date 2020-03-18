@@ -36,9 +36,23 @@ import webview
 ##############################
 # For logging version checking, TBD
 version = 1
+# ****************************************
+# Place your API Key below
+key = ''
+#  ffmpeg must be properly installed on OS, worked well with "brew install"
+ffmpeg_location = ''
+
+##############################
+# Timestamp VARS
+now_date = datetime.date.today().strftime('%d%b%y').upper()
+now_hour = str(time.localtime().tm_hour)
+now_min = str(time.localtime().tm_min)
 
 
 def is_internet():
+    timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
+    system_log = f'{timestamp} | Checking for internet connection...'
+    print(system_log)
     """
     Query internet using python, exception prevents user from accessing tool without internet connection.
     :return:
@@ -63,7 +77,9 @@ win.title("Youtube Handler")
 # win.resizable(0, 0)
 menu = Menu(win)
 win.config(menu=menu, bg='#384048', padx=7, pady=7)
-
+timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
+system_log = f'{timestamp} | Success! Your program is opened, :)'
+print(system_log)
 
 ##############################
 # Tray/Program Icon
@@ -72,24 +88,12 @@ icon_image = Image.open(f'/{my_dir}/youtube_ico.png')
 photo = ImageTk.PhotoImage(icon_image)
 win.iconphoto(False, photo)
 
-
-##############################
-# Timestamp VARS
-now_date = datetime.date.today().strftime('%d%b%y').upper()
-now_hour = str(time.localtime().tm_hour)
-now_min = str(time.localtime().tm_min)
-
 ##############################
 # Placeholders for Global Edits | Common VARs
 video_id = None
 title = ''
 description = ''
 user_input = ''
-# ****************************************
-# Place your API Key below
-key = '****************************************'
-#  ffmpeg must be properly installed on OS, worked well with "brew install"
-ffmpeg_location = '****************************************'
 
 # Tool Tip Screen share Location
 help_url = 'https://drive.google.com/file/d/1JqbJgrxMqlw6Xgw6oFeT1J0SDvZpWa6t/view'
@@ -148,7 +152,7 @@ def user_action(self):
                 timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
                 print(f'{timestamp} | No .mp3 for {title} detected. Please convert your mp4 to audio first')
 
-    elif selection == 'Generate Transcript from Youtube':
+    elif selection == 'Generate Youtube Transcript':
         # action_type == 'CONNECT'
         start = time.perf_counter()
         download_vid()
@@ -164,17 +168,16 @@ def user_action(self):
 
 
 def show_instructions():
-    instructions = tkinter.messagebox.showinfo('General Instructions', '''This tool can download MP4\'s from Youtube, convert them to MP3 files, and also download a text document showing pertinent information about your video.
+    instructions = tkinter.messagebox.showinfo('General Instructions', '''This tool can download MP4\'s from Youtube, convert them to MP3 files, download a text document showing pertinent information about your video, and generate a speech-to-text transcript of your audio.
 
-Downloading Videos: Go to your Youtube Video and Click \'Share\'. You must be logged in. Then copy the link.
+Downloading Videos: Go to your Youtube Video and Click \'Share\'. You must be logged in to Youtube. Then copy the link. The link should look something like this: 'https://youtu.be/-bK4iuAlcYQ'
 
-Converting to MP3: Currently, this tool only converts the file that was recently downloaded from Youtube. The tool converts by the EXACT filename previously created
+Converting to MP3: Currently, this tool only converts the file that was recently downloaded from Youtube. If you reopen the program and want to convert the audio from a video that is already located in your directory you must still copy the link from the youtube video because the program converts by the EXACT filename previously created.
 
-Generate Metrics File: This will download a .txt file of your file name, it's description as posted on Youtube. More functionality will be added later on.
+Generate Metrics File: This will download a .txt file of your file name, it's description as posted on Youtube. More functionality will be added later on. If you have input our something you would like to see added in this file feedback can be submitted here in the 'File' menu.
 
-Generate Transcript: IN DEVELOPMENT
+Generate Transcript: There are two ways a transcript can be generated. You can do it from the beginning in Youtube by copying the link and selecting \'Generate Youtube Transcript\'''')
 
-** FINAL THOUGHTS: Currently, this program starts with the download, converts it to MP3, and then generates a txt if needed. If you find any errors please start from the beginning.''')
 
 
 def link_help_prompt():
@@ -561,12 +564,12 @@ ttk_style.theme_use('combostyle')
 # ttk_style.configure('.', font=('Helvetica', 5))
 
 # Combobox
-user_option_dropdown = ttk.Combobox(win, width='15', values=['--CHOOSE ACTION--',
+user_option_dropdown = ttk.Combobox(win, width='20', values=['--CHOOSE ACTION--',
                                                              'Download Video',
                                                              'Convert Audio',
                                                              'Generate Metrics File',
                                                              'Generate Transcript',
-                                                             'Generate Transcript from Youtube'
+                                                             'Generate Youtube Transcript'
                                                              ])
 user_option_dropdown.current(0)
 user_option_dropdown.grid(row=0, column=13)
