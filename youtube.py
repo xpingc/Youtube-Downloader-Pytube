@@ -67,7 +67,8 @@ win.config(menu=menu, bg='#384048', padx=7, pady=7)
 
 ##############################
 # Tray/Program Icon
-icon_image = Image.open('/*************************************************/youtube_ico.png')
+my_dir = os.path.dirname(os.path.realpath(__file__))
+icon_image = Image.open(f'/{my_dir}/youtube_ico.png')
 photo = ImageTk.PhotoImage(icon_image)
 win.iconphoto(False, photo)
 
@@ -84,19 +85,18 @@ video_id = None
 title = ''
 description = ''
 user_input = ''
-my_dir = os.path.dirname(os.path.realpath(__file__))
-
-# '''If user chooses generate transcript from Youtube we must alter functions to rely on Helper Class.
-# CONNECT = Generate Transcript
-# DISCONNECT = Singular actiins such as generate audio or generate description .txt'''
-# action_type = ''
+# ****************************************
+# Place your API Key below
+key = '****************************************'
+#  ffmpeg must be properly installed on OS, worked well with "brew install"
+ffmpeg_location = '****************************************'
 
 # Tool Tip Screen share Location
 help_url = 'https://drive.google.com/file/d/1JqbJgrxMqlw6Xgw6oFeT1J0SDvZpWa6t/view'
 
-
 ##############################
 # GUI Dependent Functions
+
 
 def user_action(self):
     global title
@@ -105,7 +105,7 @@ def user_action(self):
     s = user_input.get()
     helper = Helper()
     video_id = helper.id_from_url(str(s))
-    api_key = '*************************************************'
+    api_key = key
     url = f'https://www.googleapis.com/youtube/v3/videos?part=snippet&id={video_id}&key={api_key}'
     yt_stats = YouTubeStats(url)
     title = yt_stats.get_video_title()
@@ -254,7 +254,7 @@ def download_vid():
     s = user_input.get()
     helper = Helper()
     video_id = helper.id_from_url(str(s))
-    api_key = '*************************************************'
+    api_key = key
     url = f'https://www.googleapis.com/youtube/v3/videos?part=snippet&id={video_id}&key={api_key}'
     yt_stats = YouTubeStats(url)
     title = yt_stats.get_video_title()
@@ -370,8 +370,8 @@ def generate_transcript():
     print(f'{timestamp} | A .wav file has been created. ')
     ############################################
     # VARs
-    # ffmpeg must be properly installed on OS, worked well with "brew install"
-    AudioSegment.converter = '/*************************************************/ffmpeg'
+    # ffmpeg
+    AudioSegment.converter = ffmpeg_location
 
     # Input audio file to be sliced
     audio = AudioSegment.from_wav(f'{my_dir}/{title}.wav')
