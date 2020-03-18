@@ -202,9 +202,9 @@ def submit_advice():
 def display_user_choice(event):
     timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
     selection = user_option_dropdown.get()
-    system_log = f'{timestamp} | {selection} has been chosen, click \'SUBMIT\' to complete your action'
-    status_bar.delete(0, END)
-    status_bar.insert(10, system_log)
+    # system_log = f'{timestamp} | {selection} has been chosen, click \'SUBMIT\' to complete your action'
+    # status_bar.delete(0, END)
+    # status_bar.insert(10, system_log)
 
 
 def youtube_help():
@@ -507,10 +507,13 @@ def doNothing():
 
 
 def display_user_choice(event):
-    timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
     selection = user_option_dropdown.get()
-    system_log = f'{timestamp} | {selection} has been chosen, click \'SUBMIT\' to complete your action'
-    print(system_log)
+    if selection == '--CHOOSE ACTION--':
+        pass
+    else:
+        timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
+        system_log = f'{timestamp} | {selection} has been chosen, click \'SUBMIT\' to complete your action'
+        print(system_log)
 
 
 ################################################
