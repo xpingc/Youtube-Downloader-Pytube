@@ -2,7 +2,7 @@
 # Youtube Tool
 It is a Youtube Video Downloader using Python
 
-[![Youtube GUI](https://github.com/lucascrlsn/hello/blob/master/Other/youtube_main.png)
+![Youtube GUI](https://github.com/lucascrlsn/hello/blob/master/Other/youtube_main.png)
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)      
 
