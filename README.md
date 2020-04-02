@@ -1,6 +1,43 @@
-# youtube
 
-![Youtube GUI](https://github.com/lucascrlsn/hello/blob/master/Other/youtube_main.png)
+# Youtube Tool
+It is a Youtube Video Downloader using Python
+
+[![Youtube GUI](https://github.com/lucascrlsn/hello/blob/master/Other/youtube_main.png)
+
+[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)      
+
+## Dependencies:
+
+*tkinter*
+```python
+
+pip3 install tkinter
+```
+*moviepy*
+```python
+
+pip install moviepy
+```
+*pydub*
+```python
+pip3 install pydub
+```
+*speech recongnition*
+```python
+pip3 install speech_recognition
+```
+*pytube*
+```python
+pip3 install pytube
+```
+*pillow*
+```python
+pip3 install PIL
+```
+*webview*
+```python
+pip3 install webview
+```
 
 **After cloning to your PC or Mac be sure to update lines 41 and 43 with the correct information. The application will open if not accomplished however there will be limited functionality without it. 
 
