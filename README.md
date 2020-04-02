@@ -1,6 +1,6 @@
 
 # Youtube Tool
-It is a Youtube Video Downloader using Python
+Downloads Youtube Video | Converts MP4 to MP3 | Generates Description File .txt based off of Youtube Video | Creates Transcript of Audio
 
 ![Youtube GUI](https://github.com/lucascrlsn/hello/blob/master/Other/youtube_main.png)
 
