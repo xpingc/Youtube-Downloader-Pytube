@@ -1,6 +1,6 @@
 
 # Youtube Tool
-Download Youtube Video | Convert MP4 to MP3 | Generate Description File .txt based off of Youtube Video | Create Transcript of Audio
+Download Youtube Video | Convert MP4 to MP3 | Generate Description File .txt | Create Transcript of Audio
 
 ![Youtube GUI](https://github.com/lucascrlsn/hello/blob/master/Other/youtube_main.png)
 
