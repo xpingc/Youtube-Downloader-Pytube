@@ -582,6 +582,81 @@ user_option_dropdown.bind('<<ComboboxSelected>>', display_user_choice)
 closeButt = Button(win, text='X', highlightbackground='red', command=win.destroy)
 closeButt.grid(row=0, column=16, sticky=W)
 
+##############################
+# Progress Bar
+
+# Progress Bar Style
+ttk_style = ttk.Style()
+ttk_style.theme_create('barstyle', parent='alt', settings={'TProgressbar': {'configure': {'thickness': '1', }}})
+
+# ATTENTION: this applies the new style 'barstyle' to all ttk.Progressbar
+ttk_style.theme_use('barstyle')
+
+# Call Style and Change Progress Bar to green
+s = ttk.Style()
+s.configure('TProgressbar', background='green', troughcolor='grey', relief=SUNKEN)
+
+# Progress bar
+progress_var = DoubleVar()  # Here you have ints but when calc. %'s usually floats
+MAX = 100   # Progress Bar Max Value
+progress = ttk.Progressbar(win, orient=HORIZONTAL, variable=progress_var, maximum=MAX, length=100, mode='determinate')
+progress.grid(row=1, column=0, columnspan=30, sticky='WE')
+progressbar_status = True
+
+
+def run_progress_1():
+    # this is used for dev purposes
+    global progressbar_status
+    if progressbar_status:
+        progressbar_status = False
+        progress.start()
+    else:
+        progressbar_status = True
+        progress.stop()
+
+
+def run_progress_2():
+    # this is used for dev purposes
+    global progressbar_status
+    if progressbar_status:
+        progressbar_status = False
+        k = 0
+        while k <= MAX:
+            # some work to be done
+            progress_var.set(k)
+            if progress_var.set(k) == 25:
+                print('One quarter complete')
+            elif progress_var.set(k) == 50:
+                print('One quarter complete')
+            elif progress_var.set(k) == 75:
+                print('Three quarters complete')
+            elif progress_var.set(k) == 100:
+                print('Finished!')
+            k += 1
+            time.sleep(0.02)
+            win.update()
+    else:
+        pass
+        # progress_var.set(0)
+        # win.update()
+        # progressbar_status = True
+
+
+
+    # some work to be done
+    progress_var.set(k)
+    k += 1
+    time.sleep(0.02)
+    win.update()
+
+# Progress Button | this is used for dev purposes
+progressButt = Button(win, text='1', highlightbackground='black', command=run_progress_1)
+progressButt.grid(row=0, column=17, sticky=W)
+
+# Progress Button | this is used for dev purposes
+progressButt2 = Button(win, text='2', highlightbackground='black', command=run_progress_2)
+progressButt2.grid(row=0, column=18, sticky=W)
+
 win.mainloop()
 
 
