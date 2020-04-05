@@ -264,55 +264,34 @@ def download_vid():
     title = helper.title_to_underscore_title(title)
     description = yt_stats.get_video_description()
     answer = 'yes'
-    # answer = tkinter.messagebox.askquestion('Proceed?',
-    #                                         'Are you sure you want to continue with the download? Larger files will take some time to display in your active directory')
     if answer == 'yes':
         start_download = time.perf_counter()
         timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
         system_log = f'{timestamp} | Downloading, please wait...'
-        # downloading_notification = tkinter.messagebox.showinfo('Downloading...', 'Downloading, you will be '
-        #                                                                          'notified when it is complete. '
-        #                                                                          'Closing this dialogue will not '
-        #                                                                          'cancel the process.')
-        # status_bar.delete(0, END)
-        # status_bar.insert(10, system_log)2
         print(system_log)
         yt_stats.download_video(s, title)
-        # download_complete = tkinter.messagebox.showinfo('Complete','Your download has finished and is located at: {my_dir}')
         timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
         finish_download = time.perf_counter()
         print(f'{timestamp} | Download complete in {round(finish_download-start_download, 2)} seconds!')
     else:
         system_log = f'{timestamp} | Download canceled'
-        # status_bar.delete(0, END)
-        # status_bar.insert(10, system_log)
         print(system_log)
 
 
 def convert_to_mp3():
-    # if action_type == 'CONNECT':
-    #     title = title
-    # else:
-    #     title = user_input.get()
     if path.exists(f'{my_dir}/{title}.mp3'):
         timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
         system_log = f'{timestamp} | Audio detected, no conversion is required'
-        # status_bar.delete(0, END)
-        # status_bar.insert(10, system_log)
         print(system_log)
     else:
         if path.exists(f'{my_dir}/{title}.mp4'):
             timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
             answer = 'yes'
-            # answer = tkinter.messagebox.askquestion('Proceed?',
-            #                                         'Are you sure you want to continue with the audio conversion? Larger files will take some time to display in your active directory')
             if answer == 'yes':
                 timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
                 start_conversion = time.perf_counter()
                 system_log = f'{timestamp} | Video detected, converting...'
                 print(system_log)
-                # status_bar.delete(0, END)
-                # status_bar.insert(10, system_log)
                 clip = mp.VideoFileClip(f'{title}.mp4')
                 clip.audio.write_audiofile(f'{title}.mp3')
                 timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
@@ -321,16 +300,12 @@ def convert_to_mp3():
             else:
                 system_log = f'{timestamp} | Audio conversion canceled'
                 print(system_log)
-                # status_bar.delete(0, END)
-                # status_bar.insert(10, system_log)
 
         else:
             timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
             system_log = f'{timestamp} | An MP4 video is required before you can convert to audio.' \
                          f' Change your dropdown to \'Download Video\' and submit that first.'
             print(system_log)
-            # status_bar.delete(0, END)
-            # status_bar.insert(10, system_log)
 
 
 def generate_metrics_report():
@@ -338,8 +313,6 @@ def generate_metrics_report():
         timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
         system_log = f'{timestamp} | Description File Detected, there is no write required'
         print(system_log)
-        # status_bar.delete(0, END)
-        # status_bar.insert(10, system_log)
 
     else:
         with open(f'{title}_description.txt', 'w') as f:
@@ -352,17 +325,11 @@ def generate_metrics_report():
             f.write(f'Description: {description}')
             system_log = f'{timestamp} | No metadata file detected. {title}.txt was saved in the active directory'
             print(system_log)
-            # status_bar.delete(0, END)
-            # status_bar.insert(10, system_log)
 
 
 def generate_transcript():
     global title
     global my_dir
-    # if action_type == 'CONNECT':
-    #     title = title
-    # else:
-    #     title = user_input.get()
     timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
     my_dir = os.path.dirname(os.path.realpath(__file__))
     # Convert to .wave
