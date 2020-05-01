@@ -40,7 +40,7 @@ version = 1
 # Place your API Key below
 key = ''
 #  ffmpeg must be properly installed on OS, worked well with "brew install"
-ffmpeg_location = ''
+ffmpeg_location = '/usr/ffmpeg'
 
 ##############################
 # Timestamp VARS
@@ -64,12 +64,12 @@ def is_internet():
         win = Tk()
         win.geometry('1400x25')
         win.config(bg='red')
-        tkinter.messagebox.showinfo(title='Design Error', message='Ths tool requires an active internet connection. '
+        tkinter.messagebox.shoinfo(title='Design Error', message='Ths tool requires an active internet connection. '
                                                                   'Please reconnect and try again. Thanks!')
         exit()
 
 
-is_internet()
+# is_internet()
 
 win = Tk()
 win.title("Youtube Handler")
@@ -246,6 +246,7 @@ class YouTubeStats:
         YouTube(s).streams.first().download(filename=title)
 
     def download_audio(self, s: str, title: str):
+        progress.start()
         YouTube(s).streams.first().download(filename=title)
 
 
@@ -264,34 +265,55 @@ def download_vid():
     title = helper.title_to_underscore_title(title)
     description = yt_stats.get_video_description()
     answer = 'yes'
+    # answer = tkinter.messagebox.askquestion('Proceed?',
+    #                                         'Are you sure you want to continue with the download? Larger files will take some time to display in your active directory')
     if answer == 'yes':
         start_download = time.perf_counter()
         timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
         system_log = f'{timestamp} | Downloading, please wait...'
+        # downloading_notification = tkinter.messagebox.showinfo('Downloading...', 'Downloading, you will be '
+        #                                                                          'notified when it is complete. '
+        #                                                                          'Closing this dialogue will not '
+        #                                                                          'cancel the process.')
+        # status_bar.delete(0, END)
+        # status_bar.insert(10, system_log)2
         print(system_log)
         yt_stats.download_video(s, title)
+        # download_complete = tkinter.messagebox.showinfo('Complete','Your download has finished and is located at: {my_dir}')
         timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
         finish_download = time.perf_counter()
         print(f'{timestamp} | Download complete in {round(finish_download-start_download, 2)} seconds!')
     else:
         system_log = f'{timestamp} | Download canceled'
+        # status_bar.delete(0, END)
+        # status_bar.insert(10, system_log)
         print(system_log)
 
 
 def convert_to_mp3():
+    # if action_type == 'CONNECT':
+    #     title = title
+    # else:
+    #     title = user_input.get()
     if path.exists(f'{my_dir}/{title}.mp3'):
         timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
         system_log = f'{timestamp} | Audio detected, no conversion is required'
+        # status_bar.delete(0, END)
+        # status_bar.insert(10, system_log)
         print(system_log)
     else:
         if path.exists(f'{my_dir}/{title}.mp4'):
             timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
             answer = 'yes'
+            # answer = tkinter.messagebox.askquestion('Proceed?',
+            #                                         'Are you sure you want to continue with the audio conversion? Larger files will take some time to display in your active directory')
             if answer == 'yes':
                 timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
                 start_conversion = time.perf_counter()
                 system_log = f'{timestamp} | Video detected, converting...'
                 print(system_log)
+                # status_bar.delete(0, END)
+                # status_bar.insert(10, system_log)
                 clip = mp.VideoFileClip(f'{title}.mp4')
                 clip.audio.write_audiofile(f'{title}.mp3')
                 timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
@@ -300,12 +322,16 @@ def convert_to_mp3():
             else:
                 system_log = f'{timestamp} | Audio conversion canceled'
                 print(system_log)
+                # status_bar.delete(0, END)
+                # status_bar.insert(10, system_log)
 
         else:
             timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
             system_log = f'{timestamp} | An MP4 video is required before you can convert to audio.' \
                          f' Change your dropdown to \'Download Video\' and submit that first.'
             print(system_log)
+            # status_bar.delete(0, END)
+            # status_bar.insert(10, system_log)
 
 
 def generate_metrics_report():
@@ -313,6 +339,8 @@ def generate_metrics_report():
         timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
         system_log = f'{timestamp} | Description File Detected, there is no write required'
         print(system_log)
+        # status_bar.delete(0, END)
+        # status_bar.insert(10, system_log)
 
     else:
         with open(f'{title}_description.txt', 'w') as f:
@@ -325,11 +353,17 @@ def generate_metrics_report():
             f.write(f'Description: {description}')
             system_log = f'{timestamp} | No metadata file detected. {title}.txt was saved in the active directory'
             print(system_log)
+            # status_bar.delete(0, END)
+            # status_bar.insert(10, system_log)
 
 
 def generate_transcript():
     global title
     global my_dir
+    # if action_type == 'CONNECT':
+    #     title = title
+    # else:
+    #     title = user_input.get()
     timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
     my_dir = os.path.dirname(os.path.realpath(__file__))
     # Convert to .wave
@@ -480,7 +514,10 @@ def display_user_choice(event):
     else:
         timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
         system_log = f'{timestamp} | {selection} has been chosen, click \'SUBMIT\' to complete your action'
+        user_message = f'{selection} has been chosen, click \'SUBMIT\' to complete your action'
         print(system_log)
+        status.delete(0, END)
+        status.insert(END, user_message)
 
 
 ################################################
@@ -514,21 +551,34 @@ submitButt = Button(win, text='Submit', highlightbackground='#708090')
 submitButt.bind('<Button-1>', user_action)
 submitButt.grid(row=0, column=15)
 
-# ComboBox Style
-ttk_style = ttk.Style()
 
-ttk_style.theme_create('combostyle', parent='alt',
-                         settings = {'TCombobox':
-                                     {'configure':
-                                      {'selectbackground': '#708090',
-                                       'fieldbackground': '#708090',
-                                       'selectforeground': 'black',
-                                       'background': '#384048',
-                                       'relief': 'RAISED',
-                                       }}}
-                         )
-# ATTENTION: this applies the new style 'combostyle' to all ttk.Combobox
-ttk_style.theme_use('combostyle')
+ttk_style = ttk.Style()
+ttk_style.theme_create('my_style')
+
+# ATTENTION: this applies the new style 'barstyle' to all ttk.Progressbar
+ttk_style.theme_use('my_style')
+
+# Call Style and Change Progress Bar to green
+my_style = ttk.Style()
+my_style.configure('TButton', selectbackground='none', selectforeground=win.cget('background'), fieldbackground='#708090', background='#708090', fg='black', relief=RAISED)
+my_style.configure('TProgressbar', background='lightgreen', troughcolor=win.cget('background'), thickness='1', relief=SUNKEN)
+
+
+# ComboBox Style
+# ttk_style = ttk.Style()
+#
+# ttk_style.theme_create('mystyle', parent='alt',
+#                          settings = {'TCombobox':
+#                                      {'configure':
+#                                       {'selectbackground': '#708090',
+#                                        'fieldbackground': '#708090',
+#                                        'selectforeground': 'white',
+#                                        'background': '#384048',
+#                                        'relief': 'RAISED',
+#                                        }}}
+#                          )
+# # ATTENTION: this applies the new style 'combostyle' to all ttk.Combobox
+# ttk_style.theme_use('mystyle')
 
 # Set Font Across All Widgets: https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/ttk-style-layer.html
 # ttk_style.configure('.', font=('Helvetica', 5))
@@ -544,31 +594,37 @@ user_option_dropdown = ttk.Combobox(win, width='20', values=['--CHOOSE ACTION--'
 user_option_dropdown.current(0)
 user_option_dropdown.grid(row=0, column=13)
 user_option_dropdown.bind('<<ComboboxSelected>>', display_user_choice)
+user_option_dropdown.config(style='TButton')
 
 # Close Button
 closeButt = Button(win, text='X', highlightbackground='red', command=win.destroy)
 closeButt.grid(row=0, column=16, sticky=W)
 
 ##############################
-# Progress Bar
+# System Logging Box
+status = Listbox(win, fg='lightgrey')
+status.grid(row=1, column=0, columnspan=30, sticky='WE', padx=1, pady=5)
+# win.cget code from >  https://stackoverflow.com/questions/55267783/adding-padding-query-insert-to-listbox
+status.config(height=1, borderwidth=0, highlightthickness=0, background=win.cget('background'))
 
 # Progress Bar Style
-ttk_style = ttk.Style()
-ttk_style.theme_create('barstyle', parent='alt', settings={'TProgressbar': {'configure': {'thickness': '1', }}})
+# ttk_style = ttk.Style()
+# ttk_style.theme_create('barstyle', parent='alt', settings={'TProgressbar': {'configure': {'thickness': '1', }}})
 
 # ATTENTION: this applies the new style 'barstyle' to all ttk.Progressbar
-ttk_style.theme_use('barstyle')
+# ttk_style.theme_use('barstyle')
 
 # Call Style and Change Progress Bar to green
-s = ttk.Style()
-s.configure('TProgressbar', background='green', troughcolor='grey', relief=SUNKEN)
+# s = ttk.Style()
+# s.configure('TProgressbar', background='lightgreen', troughcolor=win.cget('background'), relief=SUNKEN)
 
 # Progress bar
 progress_var = DoubleVar()  # Here you have ints but when calc. %'s usually floats
 MAX = 100   # Progress Bar Max Value
 progress = ttk.Progressbar(win, orient=HORIZONTAL, variable=progress_var, maximum=MAX, length=100, mode='determinate')
-progress.grid(row=1, column=0, columnspan=30, sticky='WE')
+progress.grid(row=2, column=0, columnspan=30, sticky='WE')
 progressbar_status = True
+progress.config(style='TProgressbar')
 
 
 def run_progress_1():
@@ -623,6 +679,7 @@ progressButt.grid(row=0, column=17, sticky=W)
 # Progress Button | this is used for dev purposes
 progressButt2 = Button(win, text='2', highlightbackground='black', command=run_progress_2)
 progressButt2.grid(row=0, column=18, sticky=W)
+
 
 win.mainloop()
 
