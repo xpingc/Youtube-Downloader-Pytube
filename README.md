@@ -16,7 +16,7 @@ pip3 install tkinter
 *moviepy*
 ```python
 
-pip install moviepy
+pip3 install moviepy
 ```
 *pydub*
 ```python
@@ -24,7 +24,7 @@ pip3 install pydub
 ```
 *speech recongnition*
 ```python
-pip3 install speech_recognition
+pip3 install speechrecognition
 ```
 *pytube*
 ```python

@@ -1,5 +1,7 @@
 ##############################
 # UI MODs
+
+# To install tkinter on a Mac w/ Python3 ---> brew install python-tk
 from tkinter import *
 from tkinter import ttk
 import tkinter.messagebox
@@ -18,7 +20,7 @@ import speech_recognition as sr
 # Youtube JSON MODs
 import json
 import re
-import urllib
+import urllib3 as urllib
 import urllib.request
 from urllib.request import urlopen
 from pytube import YouTube
@@ -29,7 +31,7 @@ import pprint as pp
 # https://effbot.org/tkinterbook/photoimage.htm
 from PIL import Image, ImageTk
 
-##############################
+##############################e
 # For Tooltips
 import webview
 
