@@ -40,9 +40,9 @@ import webview
 version = 1
 # ****************************************
 # Place your API Key below
-key = ''
+key = 'AIzaSyAxE2KLI-sMV-hG-1e5WVJtdvDPsUmLwY0'
 #  ffmpeg must be properly installed on OS, worked well with "brew install"
-ffmpeg_location = '/usr/ffmpeg'
+ffmpeg_location = '/usr/local/Cellar/ffmpeg'
 
 ##############################
 # Timestamp VARS
@@ -103,9 +103,9 @@ help_url = 'https://drive.google.com/file/d/1JqbJgrxMqlw6Xgw6oFeT1J0SDvZpWa6t/vi
 ##############################
 # GUI Dependent Functions
 
-
 def user_action(self):
     global title
+    global description
     selection = user_option_dropdown.get()
     # Get user Link
     s = user_input.get()
@@ -229,7 +229,11 @@ class Helper:
 
 class YouTubeStats:
     def __init__(self, url: str):
-         self.json_url = urllib.request.urlopen(url)
+# 'req' var listed below needed to trick request to think it is coming from a genuine browser. This fix
+# prevents urllib.error.HTTPError: HTTP Error 502: Bad Gateway exception. See
+# https://stackoverflow.com/questions/58396922/urllib-error-httperror-http-error-502-bad-gateway-python
+         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+         self.json_url = urllib.request.urlopen(req)
          self.data = json.loads(self.json_url.read())
 
     def print_data(self):
@@ -270,7 +274,8 @@ def download_vid():
         system_log = f'{timestamp} | Downloading, please wait...'
         print(system_log)
         yt_stats.download_video(s, title)
-        # download_complete = tkinter.messagebox.showinfo('Complete','Your download has finished and is located at: {my_dir}')
+        """download_complete = tkinter.messagebox.showinfo('Complete','Your download has finished 
+        and is located at: {my_dir}')"""
         timestamp = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
         finish_download = time.perf_counter()
         print(f'{timestamp} | Download complete in {round(finish_download-start_download, 2)} seconds!')
