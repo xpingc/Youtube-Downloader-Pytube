@@ -1,6 +1,7 @@
+
+
 ##############################
 # UI MODs
-
 # To install tkinter on a Mac w/ Python3 ---> brew install python-tk
 from tkinter import *
 from tkinter import ttk
@@ -44,11 +45,11 @@ from punctuator import Punctuator
 version = 1
 # ****************************************
 # Place your API Key below
-key = '**************************************'
+key = '***************************************'
 #  ffmpeg must be properly installed on OS, worked well with "brew install"
-ffmpeg_location = '**************************************'
+ffmpeg_location = '***************************************'
 
-PCL = '**************************************'
+PCL = '***************************************.pcl'
 
 ##############################
 # Timestamp VARS
@@ -180,7 +181,7 @@ def show_instructions():
 
 Downloading Videos: Go to your Youtube Video and Click \'Share\'. You must be logged in to Youtube. Then copy the link. The link should look something like this: 'https://youtu.be/-bK4iuAlcYQ'
 
-Converting to MP3: Currently, this tool only converts the file that was recently downloaded from Youtube. If you reopen the program and want to convert the audio from a video that is already located in your directory you must still copy the link from the youtube video because the program converts by the EXACT filename previously created.
+Converting to MP3: Currently, this tool only converts the file that was recently downloaded from Youtube. If you reopen the program and want to convert the audio from a video that is already located in your directory you must still copy the link from the youtube_Pytube video because the program converts by the EXACT filename previously created.
 
 Generate Metrics File: This will download a .txt file of your file name, it's description as posted on Youtube. More functionality will be added later on. If you have input our something you would like to see added in this file feedback can be submitted here in the 'File' menu.
 
@@ -235,9 +236,9 @@ class Helper:
 
 class YouTubeStats:
     def __init__(self, url: str):
-# 'req' var listed below needed to trick request to think it is coming from a genuine browser. This fix
-# prevents urllib.error.HTTPError: HTTP Error 502: Bad Gateway exception. See
-# https://stackoverflow.com/questions/58396922/urllib-error-httperror-http-error-502-bad-gateway-python
+        # 'req' var listed below needed to trick request to think it is coming from a genuine browser. This fix
+        # prevents urllib.error.HTTPError: HTTP Error 502: Bad Gateway exception. See
+        # https://stackoverflow.com/questions/58396922/urllib-error-httperror-http-error-502-bad-gateway-python
          req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
          self.json_url = urllib.request.urlopen(req)
          self.data = json.loads(self.json_url.read())
